@@ -1,25 +1,48 @@
+// TaskColumn.js
 import React from 'react';
-import TaskCard from './TaskCard'; // Assuming you have a TaskCard component for individual tasks
+import TaskCard from './TaskCard';
 
-// TaskColumn component to display tasks under specific columns (To Do, In Progress, Done)
-const TaskColumn = ({ title, tasks, onTaskMove }) => {
+const TaskColumn = ({ title, tasks, onTaskMove, onEditTask, onDeleteTask }) => {
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    const taskId = parseInt(e.dataTransfer.getData('taskId'));
+    onTaskMove(taskId, title);
+  };
+
   return (
-    <div className="task-column bg-gray-100 rounded-md p-4 w-1/3">
-      <h2 className="text-xl font-bold text-center text-blue-700 mb-4">{title}</h2>
-      <div className="task-list">
-        {/* Loop through tasks and display them */}
-        {tasks.map((task) => (
-          <TaskCard 
-            key={task.id}
-            task={task}
-            onTaskMove={onTaskMove}
-            currentStatus={title} // Pass current status to TaskCard to handle the task movement
-          />
-        ))}
-      </div>
+    <div
+      className="w-64 bg-gray-100 p-4 rounded shadow flex flex-col"
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      {tasks.map((task) => (
+        <div key={task.id} className="mb-4">
+          <TaskCard task={task} />
+          <div className="flex space-x-2 mt-2">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm"
+              onClick={() => onEditTask('edit', task)}
+            >
+              Edit
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm"
+              onClick={() => onDeleteTask(task.id)}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ))}
+      {tasks.length === 0 && (
+        <div className="text-gray-500 italic text-sm">No tasks in this column.</div>
+      )}
     </div>
   );
 };
 
 export default TaskColumn;
-// 
