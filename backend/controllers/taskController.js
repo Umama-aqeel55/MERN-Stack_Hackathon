@@ -1,5 +1,6 @@
 import Task from "../models/Task.js";
 
+// Create a new task
 export const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -9,6 +10,7 @@ export const createTask = async (req, res) => {
   }
 };
 
+// Get all tasks
 export const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find().populate("assignedTo", "username");
@@ -18,19 +20,36 @@ export const getTasks = async (req, res) => {
   }
 };
 
+// Update a task (full or partial)
 export const updateTask = async (req, res) => {
   try {
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { id } = req.params;
+    const updates = req.body;
+
+    const task = await Task.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
     res.json(task);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+// Delete a task
 export const deleteTask = async (req, res) => {
   try {
-    await Task.findByIdAndDelete(req.params.id);
-    res.json({ message: "Task deleted" });
+    const { id } = req.params;
+
+    const task = await Task.findByIdAndDelete(id);
+
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    res.json({ message: "Task deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
