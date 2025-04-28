@@ -5,7 +5,7 @@ Manage tasks easily through different stages: **To Do → In Progress → Done**
 
 ## 🚀 Live Links
 
-- **Frontend Live**: [hackathon-frontend-liart-three.vercel.app]
+- **Frontend Live**: [ hackathon-frontend-liart-three.vercel.app ] 
 )
 - **Backend Live (API)**: [hackathon-backend-chi-orcin.vercel.app]
 
