@@ -12,9 +12,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// CORS Configuration
+const allowedOrigins = [
+  "http://localhost:5173",                     // development
+  "https://hackathon-frontend-liart-three.vercel.app"           
+];
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow frontend URL
+  origin: allowedOrigins, // Allow frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
   credentials: true, // Allow credentials (cookies, authorization headers)
