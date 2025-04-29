@@ -11,23 +11,30 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// CORS Configuration
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  preflightContinue: false, // Do not stop after the preflight request
+}));
 
 // Connect to MongoDB
 connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes); // Use task routes under the /api/tasks path
+app.use('/api/tasks', taskRoutes);
 
 // Error handling middleware (important for debugging)
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  // Send a JSON response for errors, which is what your frontend expects
   res.status(500).json({ message: 'Something broke!', error: err.message });
 });
 
-// Start server
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

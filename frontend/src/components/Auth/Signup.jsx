@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, Link } from "react-router-dom";
 
+// Validation Schema for SignUp
 const signupSchema = Yup.object({
   username: Yup.string()
     .min(3, "Minimum 3 characters required")
@@ -23,13 +24,13 @@ function Signup() {
   const handleSignup = async (values, { resetForm }) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,  // Ensure no extra slashes
         values
       );
 
       toast.success("Signup successful 🎉");
       resetForm();
-      setTimeout(() => navigate("/login"), 1000);
+      setTimeout(() => navigate("/login"), 1000); // Redirect to Login after signup
     } catch (err) {
       toast.error(err.response?.data?.error || "Signup failed ❌");
     }
@@ -113,33 +114,17 @@ function Signup() {
 
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="bg-blue-600 text-white rounded-full p-3">
-                <span>📝</span>
+              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center">
+                <span className="font-bold text-lg">1</span>
               </div>
-              <div>
-                <h4 className="font-semibold">Create Tasks</h4>
-                <p className="text-sm text-gray-600">Add new tasks with title, description, and assignee.</p>
-              </div>
+              <p className="text-gray-600">Create your account to get started</p>
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="bg-yellow-500 text-white rounded-full p-3">
-                <span>🚀</span>
+              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center">
+                <span className="font-bold text-lg">2</span>
               </div>
-              <div>
-                <h4 className="font-semibold">Move Tasks</h4>
-                <p className="text-sm text-gray-600">Drag and drop tasks across To Do, In Progress, and Done.</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="bg-green-600 text-white rounded-full p-3">
-                <span>✅</span>
-              </div>
-              <div>
-                <h4 className="font-semibold">Complete Projects</h4>
-                <p className="text-sm text-gray-600">Manage tasks efficiently and finish your projects faster.</p>
-              </div>
+              <p className="text-gray-600">Manage your tasks, team, and projects</p>
             </div>
           </div>
         </div>
