@@ -15,7 +15,7 @@ app.use(express.json());
 // ✅ CORS configuration
 const allowedOrigins = [
   "http://localhost:5173", // local frontend
-  "https://hackathon-frontend-liart-three.vercel.app" // deployed frontend
+  "https://hackathon-frontend-liart-three.vercel.app", // deployed frontend
 ];
 
 app.use(cors({
@@ -29,7 +29,7 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,  // Make sure credentials are allowed
 }));
 
 // Connect to MongoDB
